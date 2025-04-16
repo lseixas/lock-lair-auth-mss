@@ -49,16 +49,20 @@ jobs:
               dotnet workload install wasm-tools # se necessário
               dotnet tool restore
               
-          - name: Restore & Build CDK Project
+          - name: Install Dependencies
             run: |
               cd iac
-              dotnet restore
-              dotnet build
+              dotnet restore ./iac.csproj
+          
+          - name: Build
+            run: |
+              cd iac
+              dotnet build --configuration Release --no-restore
 
           - name: CDK Synth
             run: |
               cd iac
-              cdk synth --app "dotnet run --project ."
+              cdk synth --app "dotnet run --project ./iac.csproj"
 
           - name: CDK Deploy
             run: |
