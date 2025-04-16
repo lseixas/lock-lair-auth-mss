@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Amazon.CDK.Lib" Version="2.189.1" />
     <PackageReference Include="AWSSDK.APIGateway" Version="3.7.402.11" />
     <PackageReference Include="AWSSDK.Core" Version="3.7.402.40" />
     <PackageReference Include="AWSSDK.Lambda" Version="3.7.412.18" />
