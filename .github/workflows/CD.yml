@@ -58,7 +58,7 @@ jobs:
           - name: CDK Synth
             run: |
               cd iac
-              cdk synth --app "dotnet run --project ."g
+              cdk synth --app "dotnet run --project ."
 
           - name: CDK Deploy
             run: |
