@@ -58,8 +58,7 @@ jobs:
           - name: CDK Synth
             run: |
               cd iac
-              dotnet build
-              cdk synth --app "dotnet exec ./bin/Debug/net9.0/iac.dll" -c STACK_NAME=$STACK_NAME
+              cdk synth --app "dotnet run --project ."g
 
           - name: CDK Deploy
             run: |
