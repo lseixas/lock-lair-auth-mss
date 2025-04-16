@@ -27,7 +27,7 @@ jobs:
             uses: aws-actions/configure-aws-credentials@v2
             with:
               aws-region: ${{ vars.AWS_REGION }}
-              role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/x
+              role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GithubActionsRole
               role-session-name: github-action
               
           - name: Setting stage and stack name
