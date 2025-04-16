@@ -1,17 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lock-lair-auth-mss", "src\lock-lair-auth-mss\lock-lair-auth-mss.csproj", "{624086B2-AFD1-418E-BAD9-A6F6C474F549}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{624086B2-AFD1-418E-BAD9-A6F6C474F549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{624086B2-AFD1-418E-BAD9-A6F6C474F549}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{624086B2-AFD1-418E-BAD9-A6F6C474F549}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{624086B2-AFD1-418E-BAD9-A6F6C474F549}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
