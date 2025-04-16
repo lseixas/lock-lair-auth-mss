@@ -20,14 +20,14 @@ jobs:
           name: ${{ github.ref_name }}
           
         steps:
-          
+            
           - uses: actions/checkout@v2
             
           - name: Setup AWS Credentials
             uses: aws-actions/configure-aws-credentials@v2
             with:
               aws-region: ${{ vars.AWS_REGION }}
-              role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GithubActionsRole
+              role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/x
               role-session-name: github-action
               
           - name: Setting stage and stack name
@@ -36,9 +36,14 @@ jobs:
               echo "STACK_NAME=LockLairStackAuth${{github.ref_name}}" >> $GITHUB_ENV
               
           - uses: actions/checkout@v3
-          
-          - name: Install .NET and CDK
-            run: | 
+
+          - name: Setup .NET 9.0
+            uses: actions/setup-dotnet@v3
+            with:
+              dotnet-version: '9.0.x'
+              
+          - name: Install CDK and tools
+            run: |
               npm install -g aws-cdk
               dotnet --version
               dotnet workload install wasm-tools # se necessário
