@@ -3,7 +3,7 @@
     branches:
       - master
       - main
-      - devg
+      - dev
 
 jobs:
   deploy:
