@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Leonardo Iorio, Dev Community",
+  "classifications": ["Common", "Library", "Module"],
+  "identity": "DevCommunity.Templates.CsModule",
+  "name": "DevCommunity Csharp Module Template",
+  "shortName": "dccs-module",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "CapModuleName",
+  "preferNameDirectory": true
+}
