@@ -7,9 +7,11 @@ namespace iac.Constructs;
 
 public class CognitoConstruct
 {
+    public UserPool userPool;
+    public UserPoolClient userPoolClient;
     public CognitoConstruct(Construct scope)
     {
-        var UserPool = new UserPool(scope, "TestUserPoolId", new UserPoolProps
+        userPool = new UserPool(scope, "TestUserPoolId", new UserPoolProps
         {
             UserPoolName = "TestUserPoolName",
             
@@ -48,9 +50,9 @@ public class CognitoConstruct
         });
 
         // Create an App Client
-        var UserPoolClient = new UserPoolClient(scope, "UserPoolClientId", new UserPoolClientProps
+        userPoolClient = new UserPoolClient(scope, "UserPoolClientId", new UserPoolClientProps
         {
-            UserPool = UserPool,
+            UserPool = userPool,
             GenerateSecret = false,
 
             // Enable authentication flows

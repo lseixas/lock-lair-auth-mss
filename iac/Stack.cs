@@ -25,8 +25,13 @@ public class Stack
             });
             
             var apiConstruct = new ApiConstruct(this);
-            var lambdaConstruct = new LambdaConstruct(this, sharedLayer, apiConstruct.ApiGatewayResource);
             var cognitoConstruct = new CognitoConstruct(this);
+            var lambdaConstruct = new LambdaConstruct(this, sharedLayer, apiConstruct.ApiGatewayResource, environmentVariables: new Dictionary<string, string>()
+            {
+                { "UserPoolId", cognitoConstruct.userPool.UserPoolId},
+                { "UserPoolClientId", cognitoConstruct.userPoolClient.UserPoolClientId },
+            });
+
         }
     }
 }

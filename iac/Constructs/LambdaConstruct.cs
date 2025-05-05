@@ -34,7 +34,7 @@ public class LambdaConstruct
         };
     }
 
-    private Function NewDefaultLambdaFunction(Construct scope, string moduleName, string suffix, ILayerVersion[] sharedLayers)
+    private Function NewDefaultLambdaFunction(Construct scope, string moduleName, string suffix, ILayerVersion[] sharedLayers, Dictionary<string, string> environmentVariables)
     {
         return new Function(scope, $"LockLairAuthLF{moduleName}", new FunctionProps
         {
@@ -46,7 +46,8 @@ public class LambdaConstruct
             {
                 Bundling = NewDefaultModuleBundlingOptions(moduleName)
             }),
-            Layers = sharedLayers
+            Layers = sharedLayers,
+            Environment = environmentVariables,
         });
     }
 
@@ -55,7 +56,7 @@ public class LambdaConstruct
         return apiGatewayResource.AddResource(pathPart).AddMethod(httpMethod, integration: new LambdaIntegration(lambdaFunction));
     }
 
-    public LambdaConstruct(Construct scope, ILayerVersion sharedLayer, Resource apiGatewayResource)
+    public LambdaConstruct(Construct scope, ILayerVersion sharedLayer, Resource apiGatewayResource, Dictionary<string, string> environmentVariables)
     {
         
         ApiGatewayResource = apiGatewayResource;
@@ -69,7 +70,8 @@ public class LambdaConstruct
                     scope, 
                     moduleName: "LoginUser",
                     suffix: "Presenter",
-                    sharedLayers: [ sharedLayer ]
+                    sharedLayers: [ sharedLayer ],
+                    environmentVariables: environmentVariables
                     )
                 );
         LoginUserLambdaFunctionIntegration.ApplyRemovalPolicy(RemovalPolicy.DESTROY);
@@ -83,7 +85,8 @@ public class LambdaConstruct
                     scope, 
                     moduleName: "TestFunction",
                     suffix: "Presenter",
-                    sharedLayers: [ sharedLayer ]
+                    sharedLayers: [ sharedLayer ],
+                    environmentVariables: environmentVariables
                     )
                 );
         TestFunctionLambdaFunctionIntegration.ApplyRemovalPolicy(RemovalPolicy.DESTROY);
