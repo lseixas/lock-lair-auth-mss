@@ -36,7 +36,7 @@ public class LambdaConstruct
 
     private Function NewDefaultLambdaFunction(Construct scope, string moduleName, string suffix, ILayerVersion[] sharedLayers)
     {
-        return new Function(scope, "LockLairAuthLFGetUser", new FunctionProps
+        return new Function(scope, $"LockLairAuthLF{moduleName}", new FunctionProps
         {
             Runtime = Runtime.DOTNET_8,
             MemorySize = 1024,
