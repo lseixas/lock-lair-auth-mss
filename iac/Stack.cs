@@ -1,10 +1,9 @@
-﻿using System.ComponentModel;
-using Constructs;
+﻿using Constructs;
 using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
-using Amazon.CDK.AWS.AppConfig;
 using Amazon.CDK.AWS.Lambda;
 using Amazon.CDK.AWS.Logs;
+using iac.Constructs;
 using AssetOptions = Amazon.CDK.AWS.S3.Assets.AssetOptions;
 
 namespace iac;
@@ -13,50 +12,9 @@ public class Stack
 {
     public class StackClass : Amazon.CDK.Stack
     {
-
-        private BundlingOptions newBundlingOptions(string moduleName)
-        {
-            return new BundlingOptions()
-            {
-                Image = Runtime.DOTNET_8.BundlingImage,
-                User = "root",
-                OutputType = BundlingOutput.ARCHIVED,
-                Command = new String[]
-                {
-                    "/bin/sh",
-                    "-c",
-                    $"cd src/modules/{moduleName} && " +
-                    "dotnet tool install -g Amazon.Lambda.Tools" +
-                    " && dotnet build" +
-                    " && dotnet lambda package --output-package /asset-output/function.zip"
-                }
-            };
-        }
         
         internal StackClass(Construct scope, string id, StackProps? props = null) : base(scope, id, props)
         {
-
-            var restApi = new RestApi(this, "LockLairAuthMssRestApi", new RestApiProps
-            {
-                RestApiName = "LockLairAuthMssRestApi",
-                Description = "API for LockLairAuthMss",
-                DefaultCorsPreflightOptions = new CorsOptions
-                {
-                    AllowOrigins = Cors.ALL_ORIGINS,
-                    AllowMethods = Cors.ALL_METHODS,
-                    AllowHeaders = Cors.DEFAULT_HEADERS,
-                }
-            });
-
-            var apiGatewayResource = restApi.Root.AddResource("lock-lair-auth-mss", new RestApiProps
-            {
-                DefaultCorsPreflightOptions = new CorsOptions
-                {
-                    AllowOrigins = Cors.ALL_ORIGINS,
-                    AllowMethods = Cors.ALL_METHODS,
-                    AllowHeaders = Cors.DEFAULT_HEADERS,
-                }
-            });
 
             var sharedLayer = new LayerVersion(this, "LockLairAuthMssLayer", new LayerVersionProps
             {
@@ -65,23 +23,9 @@ public class Stack
                 Description = "Lambda Layer for lock-lair-auth-mss project",
                 RemovalPolicy = RemovalPolicy.DESTROY,
             });
-
-            var getUserLambdaFunction = new Function(this, "LockLairAuthLFGetUser", new FunctionProps
-            {
-                Runtime = Runtime.DOTNET_8,
-                MemorySize = 1024,
-                LogRetention = RetentionDays.ONE_DAY,
-                Handler = "GetUserAssembly::GetUser.GetUserPresenter::FunctionHandler",
-                Code = Code.FromAsset(".", new AssetOptions()
-                {
-                    Bundling = newBundlingOptions(moduleName: "GetUser")
-                }),
-                Layers = new[] { sharedLayer }
-            });
-
-            getUserLambdaFunction.ApplyRemovalPolicy(RemovalPolicy.DESTROY);
-            apiGatewayResource.AddResource("get-user").AddMethod("GET", integration: new LambdaIntegration(getUserLambdaFunction));
             
+            var apiConstruct = new ApiConstruct(this);
+            var lambdaConstruct = new LambdaConstruct(this, sharedLayer, apiConstruct.ApiGatewayResource);
         }
     }
 }
