@@ -1,12 +1,12 @@
 ﻿using shared.domain.entities;
-namespace GetUser;
+namespace TestFunction;
 
-public class GetUserViewmodel
+public class TestFunctionViewmodel
 {
 
     private User User { get; }
 
-    public GetUserViewmodel(User user)
+    public TestFunctionViewmodel(User user)
     {
         User = user;
     }

@@ -26,6 +26,7 @@ public class Stack
             
             var apiConstruct = new ApiConstruct(this);
             var lambdaConstruct = new LambdaConstruct(this, sharedLayer, apiConstruct.ApiGatewayResource);
+            var cognitoConstruct = new CognitoConstruct(this);
         }
     }
 }

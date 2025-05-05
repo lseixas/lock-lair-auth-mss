@@ -1,15 +1,15 @@
-﻿using GetUser;
+﻿using TestFunction;
 using shared.domain.entities;
 
-namespace test.modules.GetUser;
+namespace test.modules.TestFunction;
 
-public class TestGetUserViewmodel
+public class TestTestFunctionViewmodel
 {
     [Fact]
     public void TestToDict()
     {
         var user = new User("John Doe");
-        var viewModel = new GetUserViewmodel(user);
+        var viewModel = new TestFunctionViewmodel(user);
         
         var dict = viewModel.ToDict();
 

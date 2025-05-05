@@ -7,11 +7,11 @@ using shared.domain.entities;
 
 [assembly: LambdaSerializer(typeof(CustomCamelCaseLambdaJsonSerializer))]
 
-namespace GetUser;
+namespace TestFunction;
 
-public class GetUserPresenter
+public class TestFunctionPresenter
 {
-    static GetUserPresenter()
+    static TestFunctionPresenter()
     {
         AssemblyLoader.Initialize();
     }
@@ -20,7 +20,7 @@ public class GetUserPresenter
     {
         User user = new User("John Doe");
         
-        GetUserViewmodel viewModel = new GetUserViewmodel(user);
+        TestFunctionViewmodel viewModel = new TestFunctionViewmodel(user);
 
         Dictionary<String, String> userInfo = viewModel.ToDict(); 
 

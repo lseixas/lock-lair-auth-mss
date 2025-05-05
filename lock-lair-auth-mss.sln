@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{EC447DCF-ABFA-6E24-52A5-D7FD48A5C558}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetUser", "src\modules\GetUser\GetUser.csproj", "{6B43E45C-EA8F-4821-9A14-9573A6BA1A61}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFunction", "src\modules\TestFunction\TestFunction.csproj", "{6B43E45C-EA8F-4821-9A14-9573A6BA1A61}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "common", "common\common.csproj", "{D01357C5-716A-44D3-AA4B-B56D03867A0D}"
 EndProject

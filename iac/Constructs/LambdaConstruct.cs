@@ -13,6 +13,7 @@ public class LambdaConstruct
     private readonly Resource ApiGatewayResource;
     
     public Method LoginUserLambdaFunctionIntegration { get; }
+    public Method TestFunctionLambdaFunctionIntegration { get; }
     
     private BundlingOptions NewDefaultModuleBundlingOptions(string moduleName)
     {
@@ -72,6 +73,20 @@ public class LambdaConstruct
                     )
                 );
         LoginUserLambdaFunctionIntegration.ApplyRemovalPolicy(RemovalPolicy.DESTROY);
+        
+        TestFunctionLambdaFunctionIntegration = 
+            LambdaFunctionApiGatewayIntegration(
+                apiGatewayResource: ApiGatewayResource, 
+                pathPart: "test-function", 
+                httpMethod: "POST",
+                lambdaFunction: NewDefaultLambdaFunction(
+                    scope, 
+                    moduleName: "TestFunction",
+                    suffix: "Presenter",
+                    sharedLayers: [ sharedLayer ]
+                    )
+                );
+        TestFunctionLambdaFunctionIntegration.ApplyRemovalPolicy(RemovalPolicy.DESTROY);
         
     }
 }
