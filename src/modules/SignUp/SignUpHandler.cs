@@ -7,13 +7,13 @@ using common;
 
 [assembly: LambdaSerializer(typeof(CustomCamelCaseLambdaJsonSerializer))] //import CustomCamelCaseLambdaJsonSerializer from common
 
-namespace LoginUser;
+namespace SignUp;
 
-public class LoginUserPresenter
+public class SignUpHandler
 {
     private static readonly AmazonCognitoIdentityProviderClient ProviderClient;
     private static readonly string ClientId;
-    static LoginUserPresenter()
+    static SignUpHandler()
     {
         AssemblyLoader.Initialize();
         ProviderClient = new AmazonCognitoIdentityProviderClient();

@@ -64,12 +64,12 @@ public class LambdaConstruct
         LoginUserLambdaFunctionIntegration = 
             LambdaFunctionApiGatewayIntegration(
                 apiGatewayResource: ApiGatewayResource, 
-                pathPart: "login-user", 
+                pathPart: "SignUp", 
                 httpMethod: "POST",
                 lambdaFunction: NewDefaultLambdaFunction(
                     scope, 
-                    moduleName: "LoginUser",
-                    suffix: "Presenter",
+                    moduleName: "SignUp",
+                    suffix: "Handler",
                     sharedLayers: [ sharedLayer ],
                     environmentVariables: environmentVariables
                     )
