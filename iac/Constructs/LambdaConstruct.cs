@@ -12,7 +12,8 @@ public class LambdaConstruct
 {
     private readonly Resource ApiGatewayResource;
     
-    public Method LoginUserLambdaFunctionIntegration { get; }
+    public Method SignUpLambdaFunctionIntegration { get; }
+    public Method SignInLambdaFunctionIntegration { get; }
     public Method TestFunctionLambdaFunctionIntegration { get; }
     
     private BundlingOptions NewDefaultModuleBundlingOptions(string moduleName)
@@ -61,7 +62,7 @@ public class LambdaConstruct
         
         ApiGatewayResource = apiGatewayResource;
 
-        LoginUserLambdaFunctionIntegration = 
+        SignUpLambdaFunctionIntegration = 
             LambdaFunctionApiGatewayIntegration(
                 apiGatewayResource: ApiGatewayResource, 
                 pathPart: "SignUp", 
@@ -74,7 +75,22 @@ public class LambdaConstruct
                     environmentVariables: environmentVariables
                     )
                 );
-        LoginUserLambdaFunctionIntegration.ApplyRemovalPolicy(RemovalPolicy.DESTROY);
+        SignUpLambdaFunctionIntegration.ApplyRemovalPolicy(RemovalPolicy.DESTROY);
+
+        SignInLambdaFunctionIntegration =
+            LambdaFunctionApiGatewayIntegration(
+                apiGatewayResource: ApiGatewayResource,
+                pathPart: "SignIn",
+                httpMethod: "POST",
+                lambdaFunction: NewDefaultLambdaFunction(
+                    scope,
+                    moduleName: "SignIn",
+                    suffix: "Handler",
+                    sharedLayers: [sharedLayer],
+                    environmentVariables: environmentVariables
+                )
+            );
+        SignUpLambdaFunctionIntegration.ApplyRemovalPolicy(RemovalPolicy.DESTROY);
         
         TestFunctionLambdaFunctionIntegration = 
             LambdaFunctionApiGatewayIntegration(

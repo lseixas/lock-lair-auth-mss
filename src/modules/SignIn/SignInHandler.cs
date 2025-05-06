@@ -7,13 +7,13 @@ using common;
 
 [assembly: LambdaSerializer(typeof(CustomCamelCaseLambdaJsonSerializer))] //import CustomCamelCaseLambdaJsonSerializer from common
 
-namespace SignUp;
+namespace SignIn;
 
-public class SignUpHandler
+public class SignInHandler
 {
     private static readonly AmazonCognitoIdentityProviderClient ProviderClient;
     private static readonly string ClientId;
-    static SignUpHandler()
+    static SignInHandler()
     {
         AssemblyLoader.Initialize();
         ProviderClient = new AmazonCognitoIdentityProviderClient();
@@ -27,45 +27,43 @@ public class SignUpHandler
             var payload = JsonSerializer.Deserialize<Dictionary<string, string>>(request.Body);
             var username = payload["username"];
             var password = payload["password"];
-            var email = payload["email"];
 
-            var signUpRequest = new SignUpRequest
+            var authRequest = new InitiateAuthRequest
             {
                 ClientId = ClientId,
-                Username = username,
-                Password = password,
-                UserAttributes = new List<AttributeType>
+                AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
+                AuthParameters = new Dictionary<string, string>
                 {
-                    new AttributeType() { Name = "email", Value = email }
+                    ["USERNAME"] = username,
+                    ["PASSWORD"] = password
                 }
             };
-            
-            var signUpResponse = await ProviderClient.SignUpAsync(signUpRequest);
 
-            if (signUpResponse.UserConfirmed == true)
+            var authResponse = await ProviderClient.InitiateAuthAsync(authRequest);
+
+            if (authResponse.AuthenticationResult != null)
             {
-                return new APIGatewayProxyResponse()
+                var result = new
                 {
-                    StatusCode = 201,
-                    Body = JsonSerializer.Serialize(new { message = "User created and confirmed." }),
-                    Headers = new Dictionary<string, string>
-                    {
-                        { "Content-Type", "application/json" }
-                    }
+                    idToken = authResponse.AuthenticationResult.IdToken,
+                    accessToken = authResponse.AuthenticationResult.AccessToken,
+                    refreshToken = authResponse.AuthenticationResult.RefreshToken
                 };
-            }
-            else
-            {
+
                 return new APIGatewayProxyResponse
                 {
                     StatusCode = 200,
-                    Body = JsonSerializer.Serialize(new {
-                        message        = "User created; confirmation required.",
-                        userSub        = signUpResponse.UserSub,
-                        codeDelivery   = signUpResponse.CodeDeliveryDetails
-                    })
+                    Body = JsonSerializer.Serialize(result)
                 };
             }
+
+            // handle challenge flows if needed
+            return new APIGatewayProxyResponse
+            {
+                StatusCode = 400,
+                Body = JsonSerializer.Serialize(new
+                    { error = "Challenge required", challenge = authResponse.ChallengeName })
+            };
         }
         catch (Exception ex)
         {
